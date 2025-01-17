@@ -1,0 +1,129 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  email      String
+  password   String
+  department String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Quiz {
+  id              String            @id @default(auto()) @map("_id") @db.ObjectId
+  courseCode      String
+  startDate       DateTime
+  endDate         DateTime
+  timeDuration    Int
+  totalMark       Int
+  attemptRound    Int
+  gradingMethod   String
+  studySession    Int
+  department      String
+  level           String
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  Question        Question[]
+  Score           Score[]
+  StartEndquiz    StartEndquiz[]
+  UserAttemptQuiz UserAttemptQuiz[]
+}
+
+model Question {
+  id              String            @id @default(auto()) @map("_id") @db.ObjectId
+  question        String
+  options         String[]
+  correctAnswer   String[]
+  quetionType     String
+  questionImg     String?
+  quiz            Quiz              @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  quizId          String            @db.ObjectId
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  Score           Score[]
+  UserAttemptQuiz UserAttemptQuiz[]
+}
+
+model User {
+  id              String            @id @default(auto()) @map("_id") @db.ObjectId
+  name            String
+  matric          Int               @unique
+  level           String
+  department      String
+  craetedAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  Score           Score[]
+  StartEndquiz    StartEndquiz[]
+  UserAttemptQuiz UserAttemptQuiz[]
+}
+
+model Score {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  score       Int
+  matric      Int
+  attemptDone Int
+  startTime   DateTime
+  endTime     DateTime
+  timeUp      Boolean   @default(true)
+  totalMark   Int
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String    @db.ObjectId
+  quiz        Quiz?     @relation(fields: [quizId], references: [id])
+  quizId      String?   @db.ObjectId
+  question    Question? @relation(fields: [questionId], references: [id])
+  questionId  String?   @db.ObjectId
+  createAt    DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model StartEndquiz {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  startTime DateTime
+  endTime   DateTime
+  attempted Int      @default(0)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String   @db.ObjectId
+  quiz      Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  quizId    String   @unique @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model UserAttemptQuiz {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  questId     String   @unique
+  userAnswer  String[]
+  correctMark Int
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String   @db.ObjectId
+  quiz        Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  quizId      String   @db.ObjectId
+  question    Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  questionId  String   @db.ObjectId
+  createAt    DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Feedback {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  department   String
+  courseCOde   String
+  level        String
+  studySession String
+  description  String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
