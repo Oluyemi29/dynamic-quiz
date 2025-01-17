@@ -99,12 +99,11 @@ const UserLogin = () => {
             return (
               <>
                 <Select
-                
                   {...register("department")}
                   onValueChange={(value) => onChange(value)}
                 >
                   <SelectTrigger className="w-full h-14">
-                    <SelectValue placeholder="Select your DepartMent" />
+                    <SelectValue placeholder="Select your Department" />
                   </SelectTrigger>
                   <SelectContent className="bg-white z-10 rounded-md">
                     <SelectGroup>
@@ -142,7 +141,7 @@ const UserLogin = () => {
                   onValueChange={(value) => onChange(value)}
                 >
                   <SelectTrigger className="w-full h-14">
-                    <SelectValue placeholder="Select your DepartMent" />
+                    <SelectValue placeholder="Select your Level" />
                   </SelectTrigger>
                   <SelectContent className="bg-white z-10 rounded-md">
                     <SelectGroup>
