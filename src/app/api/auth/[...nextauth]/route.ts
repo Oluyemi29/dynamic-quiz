@@ -1,3 +1,4 @@
+"use server"
 import CredentialsProvider from "next-auth/providers/credentials";
 import NextAuth, { AuthOptions } from "next-auth";
 import { prisma } from "@/lib/db";
