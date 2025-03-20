@@ -15,7 +15,6 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 import Image from "next/image";
-import { Button } from "@nextui-org/react";
 import Link from "next/link";
 
 export function CarouselPlugin() {
@@ -132,14 +131,14 @@ export function CarouselPlugin() {
         </Card>
         <div className="flex flex-col mt-5 gap-4">
           <Link href={"/signIn"} className="w-full">
-            <Button className="h-12 w-full font-semibold bg-faidBlue text-white">
+            <button className="h-12 w-full font-semibold bg-faidBlue text-white">
               Get Started
-            </Button>
+            </button>
           </Link>
           <Link href={"/signIn/Admin"} className="w-full">
-            <Button className="h-12 w-full font-semibold bg-transparent border-2 border-faidBlue text-faidBlue">
+            <button className="h-12 w-full font-semibold bg-transparent border-2 border-faidBlue text-faidBlue">
               Admin Login
-            </Button>
+            </button>
           </Link>
         </div>
       </Carousel>
